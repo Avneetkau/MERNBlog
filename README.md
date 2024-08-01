@@ -1,3 +1,4 @@
+![blog2](https://github.com/user-attachments/assets/b9924d2a-dde0-45cf-84aa-4232f8dc0aa3)
 Blog App
 Hi,there this is a blog website build using MERN stack, MongoDB, Express js, React js and Node js... followed by a CRUD operations.
 
@@ -64,6 +65,12 @@ Installation
 
 Screenshots of UI
   
+![blog1](https://github.com/user-attachments/assets/83f5d119-3896-488e-8bf6-589096b92e02)
+![blog2](https://github.com/user-attachments/assets/4713b0be-79f0-4d9b-8f1a-c8edd5e91f8c)
+
+![1722536200557](https://github.com/user-attachments/assets/b7db4eb1-d4c9-4e2b-b445-fe34f30ca260)
+![1722536200607](https://github.com/user-attachments/assets/6502096f-7643-4c9f-8ad4-20dbbb9c4bdd)
+
 
 
 

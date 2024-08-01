@@ -32,7 +32,7 @@ Installation
    a.Clone the repository
    b.navigate to server
    c.Install dependencies
-       (npm 
+       ( npm install express mongoose cors body-parser)
    d.Make .env file with mongo_db_url and aws_authentication_key
    e.run server (npm start)
 

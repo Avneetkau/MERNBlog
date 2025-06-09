@@ -1,5 +1,5 @@
-<<<<<<< HEAD
-import express from 'express';
+
+/*import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import bodyParser from 'body-parser';
@@ -25,7 +25,7 @@ const USERNAME=process.env.DB_USERNAME;
 const PASSWORD=process.env.DB_PASSWORD;
 
 Connection(USERNAME,PASSWORD);
-=======
+
 /*import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -51,11 +51,14 @@ app.use("/api", blogRoutes);
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });*/
+
+import dotenv from "dotenv"; //for using .env file
+dotenv.config();
 import express from "express";
 import cors from "cors";
 
 import Connection from "./database/db.js"; //database connection
-import dotenv from "dotenv"; //for using .env file
+
 import userRoutes from "./routes/usersRoute.js"; //route for user
 import authRoutes from "./routes/authRoute.js";
 import postRoute from "./routes/postRoute.js";
@@ -72,7 +75,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 
-dotenv.config();
+
 
 app.use(cors());
 
@@ -109,4 +112,4 @@ app.use (( err, req, res, next ) => {
         message,
     });
 });
->>>>>>> master
+

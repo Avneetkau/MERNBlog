@@ -26,6 +26,7 @@ const CommentSection = ({postId}) => {
             headers : {
                 'Content-Type' : 'application/json',
             },
+             credentials: 'include',
             body : JSON.stringify({ content : comment, postId, userId : currentUser._id }),
            }
 
@@ -132,7 +133,7 @@ catch(error){
         <div className="text-teal-500 my-5 flex gap-1">
             <p>You must be logged in to comment</p>
             <Link className="text-blue-500 hover:underline" to={'/sign-in'}>
-                SIgn in
+                Sign in
             </Link>
         </div>
       )}
@@ -156,7 +157,7 @@ catch(error){
       )}
         </form>
       )  :(
-        <p> no comments</p>
+        <p> No comments</p>
       )}
       {comments.length === 0 ? (
         <p className="text-sm my-5"> No comments yet</p>

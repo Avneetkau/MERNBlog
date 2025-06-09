@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { signoutSuccess } from '../../redux/user/userSlice.js';
@@ -10,6 +12,8 @@ const DashSidebar = () => {
   const { currentUser } = useSelector(state => state.user);
   const location = useLocation(); // Get current route with query params
   const [activeTab, setActiveTab] = useState("profile");
+  const navigate = useNavigate();
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -33,6 +37,8 @@ const DashSidebar = () => {
         console.log(data.message)
       }else{
         dispatch(signoutSuccess());
+         navigate('/');
+        
       }
     } catch(error){
       console.log(error.message);
@@ -67,7 +73,8 @@ const DashSidebar = () => {
           onClick={() => setActiveTab("profile")}
         >
         
-          <div className="w-5 h-5 mr-2 font-serif" /> Profile
+          <div className="w-5 h-5 mr-2 font-serif " /> Profile
+          
           </Link>
         </li>
        
@@ -80,7 +87,7 @@ const DashSidebar = () => {
       }`}
       onClick={() => setActiveTab("comments")}
     >
-      <div className="w-5 h-5 mr-2 font-serif" /> Comments
+      <div className="w-5 h-5 mr-2 font-serif" />Comments
     </Link>
     
   </li>

@@ -1,11 +1,15 @@
 import { errorHandler } from "../utils/error.js";
 import Comment from '../models/Comment.js';
 
+
+//To Create a Comment
 export const createComment = async ( req, res, next) =>{
   
 
     try {
-     const {content, postId, userId} = req.body;
+     //const {content, postId, userId} = req.body;
+     const { content, postId } = req.body;
+     const userId = req.user.id;
       if(userId !== req.user.id){
         return next(errorHandler(403, 'You are not allowed to make comments'));
       }
@@ -23,6 +27,8 @@ export const createComment = async ( req, res, next) =>{
         next(error);
     }
 };
+
+//To get CommentPost
 
 export const getPostComment = async ( req, res, next )=> {
     try{

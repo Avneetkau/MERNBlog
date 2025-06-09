@@ -116,15 +116,15 @@ const Search = () => {
 
            <div className="flex gap-2 items-center">
                <label className="whitespace-nowrap font-semibold">Category:</label>
-               <Select onChange={handleChange} value={sideBarData.category} id="category" className="w-[150px]">
-                    <option value="uncategorized">Uncategorized</option>
+               <Select className="bg-white w-[150px]" onChange={handleChange} value={sideBarData.category} id="category" >
+                    <option  value="uncategorized">Uncategorized</option>
                     <option value="reactjs">React.js</option>
                     <option value="nextjs">Next.js</option>
                     <option value="javascript">Javascript</option>
                </Select>
            </div>
 
-           <Button type='submit' outline gradientDuoTone='purpleToPink'>
+           <Button type='submit'  className="bg-red-500 hover:bg-red-700 text-white" >
                 Search
            </Button>
 
@@ -147,7 +147,7 @@ const Search = () => {
                 ))
             }
             {
-                showMore && <button onClick={handleShowMore} className="text-teal-500 text-lg hover:underline p-7 w-full">
+                showMore && <button onClick={handleShowMore} className="text-white hover:bg-red-700 bg-red-500 text-lg  p-2 w-full">
                     Show More
                 </button>
             }

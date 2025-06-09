@@ -61,7 +61,7 @@ const SignIn = () => {
               type="email"
               name="email"
               id="email"
-              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-500"
               placeholder="Enter your email"
               
             />
@@ -77,7 +77,7 @@ const SignIn = () => {
               type="password"
               name="password"
               id="password"
-              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-500"
               placeholder="**************"
              
             />
@@ -86,7 +86,7 @@ const SignIn = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-3 rounded-md hover:bg-blue-700 transition duration-300"
+            className="w-full bg-red-500 text-white py-3 rounded-md hover:bg-red-700 transition duration-300"
             disabled={loading}
           >
           {
@@ -113,7 +113,7 @@ const SignIn = () => {
         <span className="ml-20">
           Don't have an account?
         </span>
-        <Link to='/signup' className="text-blue-500">Sign Up</Link>
+        <Link to='/signup' className="text-red-500 hover:underline">Sign Up</Link>
         </div>
         <div className="mt-5">
         {

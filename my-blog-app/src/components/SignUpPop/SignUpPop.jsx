@@ -88,6 +88,8 @@ const SignInPop = () => {
 export default SignInPop;*/}
 import React, { useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';    // for other work
+import { signInSuccess } from "../../redux/user/userSlice";     // for other work
 import OAuth from "../OAuth/OAuth";
 
 const SignUpForm = () => {
@@ -95,6 +97,9 @@ const SignUpForm = () => {
   const [ formData , setFormData ] = useState({});
   const [ errorMessage , setErrorMessage ] = useState(null);
   const [ loading , setLoading ] =useState(false);
+  
+const dispatch = useDispatch(); // for other work
+
   const navigate = useNavigate();
    const handleChange = (e) => {
     setFormData({ ...formData , [e.target.id] : e.target.value.trim() }); //Here we want to first have formData and then trace changes on base of id's.
@@ -120,8 +125,23 @@ const SignUpForm = () => {
        }
        setLoading(false);
        if(res.ok){
-        navigate('/sign-in');
+
+        const signinRes = await fetch('/api/auth/signin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: formData.email, password: formData.password }),
+      });
+       const signinData = await signinRes.json();
+        if (signinRes.ok) {
+        dispatch(signInSuccess(signinData));
+       //navigate('/signin');
+      navigate('/');
+        } else {
+        setErrorMessage(signinData.message || 'Sign in after signup failed');
+      }
+    
        }
+       setLoading(false);
     }
     catch (error) {
       setErrorMessage(error.message);
@@ -143,7 +163,7 @@ const SignUpForm = () => {
               type="email"
               name="email"
               id="email"
-              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-500"
               placeholder="Enter your email"
               
             />
@@ -157,7 +177,7 @@ const SignUpForm = () => {
               type="text"
               name="username"
               id="username"
-              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-500"
               placeholder="Enter your username"
             
             />
@@ -171,7 +191,7 @@ const SignUpForm = () => {
               type="password"
               name="password"
               id="password"
-              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-500"
               placeholder="Enter your password"
              
             />
@@ -180,7 +200,7 @@ const SignUpForm = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-3 rounded-md hover:bg-blue-700 transition duration-300"
+            className="w-full bg-red-500 text-white py-3 rounded-md hover:bg-red-700 transition duration-300"
             disabled={loading}
           >
           {
@@ -207,7 +227,7 @@ const SignUpForm = () => {
         <span className="ml-20">
           Already have an account?
         </span>
-        <Link to='/signin' className="text-blue-500">Sign in</Link>
+        <Link to='/signin' className="text-red-500 hover:underline">Sign in</Link>
         </div>
         <div className="mt-5">
         {

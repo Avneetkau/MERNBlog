@@ -1,13 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import AboutImage from "../../assets/backgroundabout.jpg";  // Replace with your image path
+import AboutImage from "../../assets/knowmeimage.jpg";
+import BackgroundImage from "../../assets/backgroundabout.jpg"  // Replace with your image path
 
 const AboutUs = () => {
   return (
     <div>
     <div 
       className="relative w-full h-[500px] bg-cover bg-center" 
-      style={{ backgroundImage: `url(${AboutImage})` }}
+      style={{ backgroundImage: `url(${BackgroundImage})` }}
     >
       {/* Overlay */}
       <div className="absolute inset-0 bg-black opacity-50"></div>

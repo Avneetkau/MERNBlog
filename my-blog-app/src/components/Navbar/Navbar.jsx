@@ -40,6 +40,7 @@ const Navbar = () => {
         console.log(data.message)
       }else{
         dispatch(signoutSuccess());
+        navigate("/");
       }
     } catch(error){
       console.log(error.message);
@@ -92,7 +93,7 @@ const Navbar = () => {
                     <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer font-serif">{currentUser.username}</li>
                     <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer font-serif">{currentUser.email}</li>
                     <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                      <Link to="/dashboard?tab=profile font-serif">Profile</Link>
+                      <Link to="/dashboard?tab=profile">Profile</Link>
                     </li>
                     <li className="px-4 py-2 text-red-500 hover:bg-gray-100 cursor-pointer font-serif" onClick ={handleSignOut}>Sign Out</li>
                   </ul>
@@ -100,7 +101,7 @@ const Navbar = () => {
               )}
             </div>
           ) : (
-            <Link to="/signup" className="bg-blue-500 text-white py-2 px-6 rounded-md hover:bg-blue-700 transition duration-300">
+            <Link to="/signup" className="bg-red-500 text-white py-2 px-6 rounded-md hover:bg-red-700 transition duration-300">
               Sign-in
             </Link>
           )}

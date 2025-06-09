@@ -1,35 +1,5 @@
-# Log files
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
 
-# Node dependencies
-node_modules/
 
-# Environment variables
+node_modules
+
 .env
-
-# Build output
-dist/
-dist-ssr/
-
-# Local environment config
-*.local
-
-# Ignore OS-specific files
-.DS_Store
-
-# IDEs and editor settings (optional)
-.idea/
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-# VSCode settings (optional — keeping extensions.json)
-!.vscode/extensions.json
-

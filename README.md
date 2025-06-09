@@ -23,4 +23,8 @@ A full-stack Blog web application built using the **MERN stack** (MongoDB, Expre
 - **Database:** MongoDB Atlas
 - **Authentication:** JSON Web Token (JWT), bcrypt
 - **Image Hosting:** Cloudinary
+<<<<<<< HEAD
 - **Deployment:** Render / Vercel / Netlify / Railway
+=======
+- **Deployment:** Render / Vercel / Netlify / Railway
+>>>>>>> 8a14c18 (render commit)

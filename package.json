@@ -4,7 +4,8 @@
   "description": "![blog2](https://github.com/user-attachments/assets/b9924d2a-dde0-45cf-84aa-4232f8dc0aa3)\r Blog App\r Hi,there this is a blog website build using MERN stack, MongoDB, Express js, React js and Node js... followed by a CRUD operations.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build" : "npm install &&  npm install --prefix my-blog-app && npm run build --prefix my-blog-app"
   },
   "author": "",
   "license": "ISC"

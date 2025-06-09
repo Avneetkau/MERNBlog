@@ -65,6 +65,7 @@ import postRoute from "./routes/postRoute.js";
 import commentRoute from './routes/commentRoute.js';
 import emailRoute from './routes/emailRoute.js';
 import cookieParser from "cookie-parser";
+import path from "path";
 
 
 
@@ -78,12 +79,15 @@ app.use(cookieParser());
 
 
 app.use(cors());
+const __dirname = path.resolve();
 
 
 
 const port=3000;
 
- 
+ app.get("/",(req,res) => {
+    res.send("API is working");
+ })
 app.listen( port , () => {
     console.log(`Server is running on ${port}`);
 });
@@ -95,6 +99,12 @@ app.use('/api/post', postRoute);
 app.use('/api/comment',commentRoute);
 
 app.use('/api/email',emailRoute);
+
+app.use(express.static(path.join(__dirname, '/my-blog-app/build')));
+
+app.get('*', (req,res) => {
+    res.sendFile(path.join(__dirname , 'my-blog-app', 'build', 'index.html'));
+});
 
 const USERNAME=process.env.DB_USERNAME;
 const PASSWORD =process.env.DB_PASSWORD;

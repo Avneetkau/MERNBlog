@@ -79,7 +79,7 @@ app.use(cookieParser());
 
 
 app.use(cors({
-  origin: "https://mern-blog-one-rho.vercel.app",
+  origin: "https://mern-blog-frontend-one-phi.vercel.app/",
   credentials: true,
 }));
 

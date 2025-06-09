@@ -21,7 +21,7 @@ const CommentSection = ({postId}) => {
             return;
            }
            try{
-           const res =  await fetch('/api/comment/create',{
+           const res =  await fetch('https://mern-blog-one-rho.vercel.app/api/comment/create',{
             method : 'POST',
             headers : {
                 'Content-Type' : 'application/json',
@@ -47,7 +47,7 @@ const CommentSection = ({postId}) => {
     useEffect(()=> {
      const getComments=async ()=>{
 try{
-    const res= await fetch(`/api/comment/getPostComment/${postId}`);
+    const res= await fetch(`https://mern-blog-one-rho.vercel.app/api/comment/getPostComment/${postId}`);
     if(res.ok){
         const data =await res.json();
         setComments(data);
@@ -66,7 +66,7 @@ catch(error){
               navigate('/sign-in');
               return;
              }
-             const res= await fetch(`/api/comment/likeComment/${commentId}`,
+             const res= await fetch(`https://mern-blog-one-rho.vercel.app/api/comment/likeComment/${commentId}`,
               {
                 method : 'PUT',
               }
@@ -101,7 +101,7 @@ catch(error){
             navigate('/sign-in');
             return;
           }
-         const res = await fetch(`/api/comment/deleteComment/${commentId}`,{
+         const res = await fetch(`https://mern-blog-one-rho.vercel.app/api/comment/deleteComment/${commentId}`,{
           method : 'DELETE'
          });
          if(res.ok){

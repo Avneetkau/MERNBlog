@@ -19,7 +19,7 @@ const OAuth = () => {
       try{
         const  resultFromGoogle = await signInWithPopup( auth, provider);
         //console.log(resultFromGoogle); Here we were only displaying this on console now we will use this to save in backend
-        const res = await fetch('/api/auth/google', {
+        const res = await fetch('https://mern-blog-one-rho.vercel.app/api/auth/google', {
             method : 'POST',
             headers : { 'Content-Type' : 'application/json'},
             body :JSON.stringify({

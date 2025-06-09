@@ -15,7 +15,7 @@ const Comments = ({comment, onLike, onEdit, onDelete}) => {
         const getUser = async () => {
 
             try{
-               const res = await fetch(`/api/user/${comment.userId}`);
+               const res = await fetch(`https://mern-blog-one-rho.vercel.app/api/user/${comment.userId}`);
                const data = await res.json();
                if(res.ok){
                 setUser(data);
@@ -38,7 +38,7 @@ const Comments = ({comment, onLike, onEdit, onDelete}) => {
 
     const handleSave = async ()=> {
       try{
-         const res=await fetch(`/api/comment/editComment/${comment._id}`, {
+         const res=await fetch(`https://mern-blog-one-rho.vercel.app/api/comment/editComment/${comment._id}`, {
           method : 'PUT',
           headers : {
             'Content-Type' : 'application/json'

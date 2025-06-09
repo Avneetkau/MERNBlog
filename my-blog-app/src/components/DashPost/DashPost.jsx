@@ -15,7 +15,7 @@ const DashPost = () => {
         const fetchPosts = async () =>{
           console.log(userPosts);
             try{
-                const res = await fetch(`/api/post/getPosts?userId=${currentUser._id}`);
+                const res = await fetch(`https://mern-blog-one-rho.vercel.app/api/post/getPosts?userId=${currentUser._id}`);
                 const data = await res.json();
                 //console.log(data);
 
@@ -35,7 +35,7 @@ const DashPost = () => {
         const handleShowMore = async () => {
             const startIndex = userPosts.length;
             try{
-              const res=await fetch(`/api/post/getPosts?userId=${currentUser._id}&startIndex=${startIndex}`);
+              const res=await fetch(`https://mern-blog-one-rho.vercel.app/api/post/getPosts?userId=${currentUser._id}&startIndex=${startIndex}`);
                 const data= await res.json();
                 if(res.ok){
                     setUserPosts((prev) => [...prev, ...data.posts]);
@@ -51,7 +51,7 @@ const DashPost = () => {
         const handleDeletePost = async () => {
             setShowModal(false);
             try{
-               const res =await fetch(`/api/post/deletepost/${postIdToDelete}/${currentUser._id}`,
+               const res =await fetch(`https://mern-blog-one-rho.vercel.app/api/post/deletepost/${postIdToDelete}/${currentUser._id}`,
                    {
                     method : 'DELETE',
                    }

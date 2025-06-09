@@ -114,7 +114,7 @@ const dispatch = useDispatch(); // for other work
     try{
       setLoading(true);
       setErrorMessage(null);
-      const res = await fetch('/api/auth/signup', {
+      const res = await fetch('https://mern-blog-one-rho.vercel.app/api/auth/signup', {
         method : 'POST',
         headers :  {'Content-Type' : 'application/json'},
         body : JSON.stringify(formData)
@@ -126,7 +126,7 @@ const dispatch = useDispatch(); // for other work
        setLoading(false);
        if(res.ok){
 
-        const signinRes = await fetch('/api/auth/signin', {
+        const signinRes = await fetch('https://mern-blog-one-rho.vercel.app/api/auth/signin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: formData.email, password: formData.password }),

@@ -15,7 +15,7 @@ const DashComments = () => {
     useEffect( () => {
         const fetchComments = async () =>{
             try{
-                const res = await fetch(`/api/comment/getcomments`);
+                const res = await fetch(`https://mern-blog-one-rho.vercel.app/api/comment/getcomments`);
                 const data = await res.json();
                 //console.log(data);
 
@@ -35,7 +35,7 @@ const DashComments = () => {
         const handleShowMore = async () => {
             const startIndex = comments.length;
             try{
-              const res=await fetch(`/api/comment/getcomments?startIndex=${startIndex}`);
+              const res=await fetch(`https://mern-blog-one-rho.vercel.app/api/comment/getcomments?startIndex=${startIndex}`);
                 const data= await res.json();
                 if(res.ok){
                     setComments((prev) => [...prev, ...data.comments]);
@@ -51,7 +51,7 @@ const DashComments = () => {
         const handleDeleteComment = async () => {
           setShowModal(false);
            try{
-              const res = await fetch(`/api/comment/deleteComment/${CommentIdToDelete}`,{
+              const res = await fetch(`https://mern-blog-one-rho.vercel.app/api/comment/deleteComment/${CommentIdToDelete}`,{
                 method : 'DELETE',
               });
               const data = await res.json();

@@ -31,7 +31,7 @@ const Search = () => {
        const fetchPosts = async ()=> {
           setLoading(true);
           const searchQuery = urlParams.toString();
-          const res = await fetch(`/api/post/getPosts?${searchQuery}`);
+          const res = await fetch(`https://mern-blog-one-rho.vercel.app/api/post/getPosts?${searchQuery}`);
           if(!res.ok){
             setLoading(false);
             return;
@@ -82,7 +82,7 @@ const Search = () => {
         const urlParams = new URLSearchParams(location.search);
         urlParams.set('startIndex',startIndex);
         const searchQuery = urlParams.toString();
-        const res = await fetch(`/api/post/getPosts?${searchQuery}`);
+        const res = await fetch(`https://mern-blog-one-rho.vercel.app/api/post/getPosts?${searchQuery}`);
         if(!res.ok){
          return;
         }

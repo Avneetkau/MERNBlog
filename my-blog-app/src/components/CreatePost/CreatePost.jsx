@@ -62,7 +62,7 @@ const handleUploadImage = async (e)=>{
 const handleSubmit = async (e) =>{
       e.preventDefault();
       try{
-        const res = await fetch('/api/post/create-post',
+        const res = await fetch('https://mern-blog-one-rho.vercel.app/api/post/create-post',
           {
             method : 'POST',
             headers : {

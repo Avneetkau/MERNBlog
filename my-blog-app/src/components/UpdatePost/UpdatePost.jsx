@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from '../../axiosInstance'; // ✅ Centralized Axios
+import axios from '../../axiosInstance'; 
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { getStorage, uploadBytesResumable, getDownloadURL, ref } from "firebase/storage";

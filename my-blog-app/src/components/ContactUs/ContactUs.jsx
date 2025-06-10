@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from '../../axiosInstance'; // ✅ Centralized Axios
+import axios from '../../axiosInstance'; 
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({

@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import axios from '../../axiosInstance'; // ✅ Centralized axios
+import axios from '../../axiosInstance'; 
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 

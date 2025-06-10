@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from "../../assets/bannerImage.avif";
 import PostCard from '../PostCard/PostCard';
-import axios from '../../axiosInstance'; // ✅ Using centralized Axios
+import axios from '../../axiosInstance';
 import { Link } from 'react-router-dom';
 import { Button } from 'flowbite-react';
 

@@ -1,5 +1,5 @@
 import { FcGoogle } from "react-icons/fc";
-import axios from "../../axiosInstance"; // ✅ Centralized Axios
+import axios from "../../axiosInstance"; 
 import { GoogleAuthProvider, signInWithPopup, getAuth } from 'firebase/auth';
 import { app } from "../../Firebase/Firebase.js";
 import { useDispatch } from "react-redux";

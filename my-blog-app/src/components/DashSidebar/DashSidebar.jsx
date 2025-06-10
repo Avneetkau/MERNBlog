@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
@@ -27,7 +28,7 @@ const DashSidebar = () => {
   //sign out 
   const handleSignOut = async () =>{
     try{ 
-      const res= await fetch('https://mern-blog-one-rho.vercel.app/api/user/signout',
+      const res= await axios.post('/api/user/signout',
         {
           method : 'POST',
         }

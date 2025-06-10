@@ -3,17 +3,16 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import flowbiteReact from "flowbite-react/plugin/vite";
 
-// https://vite.dev/config/
 export default defineConfig({
   server : {
-    port: 5173,
-    proxy : { 
-      '/api' : {
-        target : 'http://localhost:3000',
+    
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
         changeOrigin: true,
-        secure : false,
-      },
-    },
+        secure: false,
+      }
+    }
   },
   plugins: [react(), tailwindcss(), flowbiteReact()],
 })

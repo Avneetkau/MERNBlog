@@ -61,4 +61,4 @@ const userSlice = createSlice({
 });
 export const { signInStart, signInSuccess, signInFailure, updateStart, updateSuccess, updateFailure , deleteUserStart, deleteUserSuccess, deleteUserFailure, signoutSuccess} = userSlice.actions;
 
-export default userSlice.reducer;// wewill import this in ./redux/store.js
+export default userSlice.reducer; // wewill import this in ./redux/store.js

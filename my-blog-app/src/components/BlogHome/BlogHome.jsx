@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from "../../assets/bannerImage.avif";
 import PostCard from '../PostCard/PostCard';
+import axios from "axios";
 import { Link } from 'react-router-dom';
 import { Button } from 'flowbite-react';
   
@@ -11,7 +12,7 @@ const BlogHome = () => {
   const [posts,setPosts] = useState([]);
   useEffect(() =>{
     const fetchPosts = async () =>{
-      const res= await fetch(`https://mern-blog-one-rho.vercel.app/api/post/getPosts?limit=3`);
+      const res= await axios.get(`/api/post/getPosts?limit=3`);
       const data = await res.json();
       setPosts(data.posts);
 

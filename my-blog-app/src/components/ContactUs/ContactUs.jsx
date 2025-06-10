@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from "axios";
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -10,27 +11,22 @@ const ContactUs = () => {
   const [showPopup, setShowPopup] = useState(false);
 
   const handleChange = (e) => {
-    setFormData({...formData, [e.target.name]: e.target.value});
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("https://mern-blog-one-rho.vercel.app/api/email/sendemail", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      const response = await axios.post("/api/email/sendemail", formData); // ✅ uses proxy
 
-      const result = await response.json();
-      if (result.success) {
+      if (response.data.success) {
         setShowPopup(true);
         setFormData({ name: '', email: '', message: '' });
       } else {
-        alert("Failed to send email. Please try again.");
+        alert(response.data.message || "Failed to send email. Please try again.");
       }
     } catch (error) {
-      console.error("Error sending message:", error);
+      console.error("Error sending message:", error.response?.data || error.message);
       alert("An error occurred. Please try again.");
     }
   };
@@ -131,5 +127,6 @@ const ContactUs = () => {
 };
 
 export default ContactUs;
+
 
 

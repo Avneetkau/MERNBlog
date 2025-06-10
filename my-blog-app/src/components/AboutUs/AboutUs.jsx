@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from "axios";
 import { Link } from 'react-router-dom';
 import AboutImage from "../../assets/knowmeimage.jpg";
 import BackgroundImage from "../../assets/backgroundabout.jpg"  // Replace with your image path

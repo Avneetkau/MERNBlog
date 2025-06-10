@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const KnowMe = () => {
   const [formData, setFormData] = useState({
@@ -16,14 +17,9 @@ const KnowMe = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("https://mern-blog-one-rho.vercel.app/api/email/sendemail", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      const response = await axios.post("/api/email/sendemail", formData); // Uses Vite proxy
 
-      const result = await response.json();
-      if (result.success) {
+      if (response.data.success) {
         setShowPopup(true);
         setFormData({ name: '', email: '', message: '' });
       } else {

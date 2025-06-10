@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "../../axiosInstance"; // ✅ Centralized axios
+import axios from "../../axiosInstance.js"; // ✅ Centralized axios
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { signoutSuccess } from '../../redux/user/userSlice.js';

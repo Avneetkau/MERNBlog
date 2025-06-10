@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from '../../axiosInstance'; // ✅ Centralized Axios
+import axios from '../../axiosInstance.js'; // ✅ Centralized Axios
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from "../../assets/logo.jpg";
 import { useSelector, useDispatch } from 'react-redux';

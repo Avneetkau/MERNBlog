@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import axios from '../../axiosInstance.js'; // ✅ Centralized Axios
+import axios from '../../axiosInstance'; // ✅ Centralized Axios
 import { useSelector, useDispatch } from 'react-redux';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';

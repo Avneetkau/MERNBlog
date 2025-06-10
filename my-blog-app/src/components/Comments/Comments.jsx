@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from '../../axiosInstance.js'; // ✅ Use custom Axios instance
 import moment from 'moment';
 import { FaThumbsUp } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
@@ -31,7 +31,7 @@ const Comments = ({ comment, onLike, onEdit, onDelete }) => {
   const handleSave = async () => {
     try {
       const res = await axios.put(`/api/comment/editComment/${comment._id}`, {
-        content: editedContent
+        content: editedContent,
       });
       setIsEditing(false);
       onEdit(comment, editedContent);

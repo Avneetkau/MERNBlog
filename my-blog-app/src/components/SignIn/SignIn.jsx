@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import axios from "../../axiosInstance"; // ✅ Centralized Axios
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -29,10 +29,7 @@ const SignIn = () => {
     try {
       dispatch(signInStart());
 
-      // Axios POST - pass formData directly as second param
-      const res = await axios.post("/api/auth/signin", formData);
-
-      const data = res.data;
+      const { data } = await axios.post("/api/auth/signin", formData);
 
       if (data.success === false) {
         dispatch(signInFailure(data.message));
@@ -41,8 +38,8 @@ const SignIn = () => {
 
       dispatch(signInSuccess(data));
       navigate("/");
-    } catch (error) {
-      dispatch(signInFailure(error.message));
+    } catch (err) {
+      dispatch(signInFailure(err.message));
     }
   };
 
@@ -131,6 +128,7 @@ const SignIn = () => {
 };
 
 export default SignIn;
+
 
 
 //each field has unique id as id='email' id='password' id='username'

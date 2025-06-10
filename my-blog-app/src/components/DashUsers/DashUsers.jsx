@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import axios from "axios";
+import axios from '../../axiosInstance'; // ✅ Centralized Axios
 import { useEffect, useState } from 'react';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 
@@ -13,26 +13,14 @@ const DashUsers = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await axios.get(`/api/user/getusers`, {
-          withCredentials: true,
-          headers: {
-            'Cache-Control': 'no-cache',
-            Pragma: 'no-cache',
-            Expires: '0',
-          }
-        });
-        const data = res.data;
-
-        if (res.status === 200) {
-          setUsers(data.users);
-          if (data.users.length < 9) {
-            setShowMore(false);
-          }
-        }
-      } catch (error) {
-        console.log("Fetch Users Error:", error.message);
+        const { data } = await axios.get('/api/user/getusers');
+        setUsers(data.users);
+        if (data.users.length < 9) setShowMore(false);
+      } catch (err) {
+        console.error('Fetch Users Error:', err.message);
       }
     };
+
     if (currentUser?.isAdmin) {
       fetchUsers();
     }
@@ -41,40 +29,21 @@ const DashUsers = () => {
   const handleShowMore = async () => {
     const startIndex = users.length;
     try {
-      const res = await axios.get(`/api/user/getusers?startIndex=${startIndex}`, {
-        withCredentials: true,
-        headers: {
-          'Cache-Control': 'no-cache',
-          Pragma: 'no-cache',
-          Expires: '0',
-        }
-      });
-      const data = res.data;
-      if (res.status === 200) {
-        setUsers((prev) => [...prev, ...data.users]);
-        if (data.users.length < 9) {
-          setShowMore(false);
-        }
-      }
-    } catch (error) {
-      console.log("Show More Users Error:", error.message);
+      const { data } = await axios.get(`/api/user/getusers?startIndex=${startIndex}`);
+      setUsers((prev) => [...prev, ...data.users]);
+      if (data.users.length < 9) setShowMore(false);
+    } catch (err) {
+      console.error('Show More Users Error:', err.message);
     }
   };
 
   const handleDeleteUser = async () => {
     try {
-      const res = await axios.delete(`/api/user/delete/${userIdToDelete}`, {
-        withCredentials: true,
-      });
-      const data = res.data;
-      if (res.status === 200) {
-        setUsers((prev) => prev.filter((user) => user._id !== userIdToDelete));
-        setShowModal(false);
-      } else {
-        console.log("Delete user error:", data.message);
-      }
-    } catch (error) {
-      console.log("Delete User Error:", error.message);
+      const { data } = await axios.delete(`/api/user/delete/${userIdToDelete}`);
+      setUsers((prev) => prev.filter((user) => user._id !== userIdToDelete));
+      setShowModal(false);
+    } catch (err) {
+      console.error('Delete User Error:', err.message);
     }
   };
 
@@ -130,7 +99,7 @@ const DashUsers = () => {
           </table>
 
           {showMore && (
-            <div className="flex justify-center mt-4 ">
+            <div className="flex justify-center mt-4">
               <button
                 onClick={handleShowMore}
                 className="w-full px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-900"
@@ -179,6 +148,7 @@ const DashUsers = () => {
 };
 
 export default DashUsers;
+
 
 
 {/*import { useSelector } from 'react-redux';

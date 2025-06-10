@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from "axios";
+import axios from '../../axiosInstance'; // ✅ Centralized Axios
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -17,17 +17,16 @@ const ContactUs = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/api/email/sendemail", formData); // ✅ uses proxy
-
-      if (response.data.success) {
+      const { data } = await axios.post('/api/email/sendemail', formData); // ✅ simplified pattern
+      if (data.success) {
         setShowPopup(true);
         setFormData({ name: '', email: '', message: '' });
       } else {
-        alert(response.data.message || "Failed to send email. Please try again.");
+        alert(data.message || 'Failed to send email. Please try again.');
       }
-    } catch (error) {
-      console.error("Error sending message:", error.response?.data || error.message);
-      alert("An error occurred. Please try again.");
+    } catch (err) {
+      console.error('Error sending message:', err.response?.data || err.message);
+      alert('An error occurred. Please try again.');
     }
   };
 
@@ -35,7 +34,8 @@ const ContactUs = () => {
     <div className="max-w-4xl mx-auto px-6 py-16">
       <h2 className="text-4xl font-bold mb-6 text-center text-gray-800 font-serif">📬 Contact Me</h2>
       <p className="text-lg text-gray-600 mb-8 text-center font-serif">
-        I'm always excited to connect with other developers, collaborators, or anyone who shares a passion for technology! Feel free to reach out to me with any questions, suggestions, or opportunities.
+        I'm always excited to connect with other developers, collaborators, or anyone who shares a passion for technology!
+        Feel free to reach out to me with any questions, suggestions, or opportunities.
       </p>
 
       {/* Contact Form */}
@@ -127,6 +127,7 @@ const ContactUs = () => {
 };
 
 export default ContactUs;
+
 
 
 

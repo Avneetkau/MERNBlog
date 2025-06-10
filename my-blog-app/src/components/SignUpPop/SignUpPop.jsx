@@ -87,7 +87,7 @@ const SignInPop = () => {
 
 export default SignInPop;*/}
 import React, { useState } from "react";
-import axios from "axios";
+import axios from "../../axiosInstance"; // ✅ Using centralized Axios instance
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { signInSuccess } from "../../redux/user/userSlice";
@@ -116,22 +116,17 @@ const SignUpForm = () => {
       setLoading(true);
       setErrorMessage(null);
 
-      // Signup request
-      const res = await axios.post("/api/auth/signup", formData);
-      const data = res.data;
+      const { data } = await axios.post("/api/auth/signup", formData);
 
       if (data.success === false) {
         setLoading(false);
         return setErrorMessage(data.message);
       }
 
-      // Automatically sign in after successful signup
-      const signinRes = await axios.post("/api/auth/signin", {
+      const { data: signinData } = await axios.post("/api/auth/signin", {
         email: formData.email,
         password: formData.password,
       });
-
-      const signinData = signinRes.data;
 
       if (signinData.success === false) {
         setLoading(false);
@@ -141,8 +136,8 @@ const SignUpForm = () => {
       dispatch(signInSuccess(signinData));
       setLoading(false);
       navigate("/");
-    } catch (error) {
-      setErrorMessage(error.message);
+    } catch (err) {
+      setErrorMessage(err.message);
       setLoading(false);
     }
   };
@@ -153,7 +148,6 @@ const SignUpForm = () => {
         <h2 className="text-2xl font-semibold text-center mb-6">Sign Up</h2>
 
         <form onSubmit={handleSubmit}>
-          {/* Email Field */}
           <div className="mb-4">
             <label className="block text-gray-700">Email</label>
             <input
@@ -166,7 +160,6 @@ const SignUpForm = () => {
             />
           </div>
 
-          {/* Username Field */}
           <div className="mb-4">
             <label className="block text-gray-700">Username</label>
             <input
@@ -179,7 +172,6 @@ const SignUpForm = () => {
             />
           </div>
 
-          {/* Password Field */}
           <div className="mb-4">
             <label className="block text-gray-700">Password</label>
             <input
@@ -192,7 +184,6 @@ const SignUpForm = () => {
             />
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             className="w-full bg-red-500 text-white py-3 rounded-md hover:bg-red-700 transition duration-300"
@@ -239,7 +230,7 @@ const SignUpForm = () => {
 
         <div className="mt-5">
           {errorMessage && (
-            <label className="text-red-500 border-2-red">{errorMessage}</label>
+            <label className="text-red-500">{errorMessage}</label>
           )}
         </div>
       </div>
@@ -248,5 +239,6 @@ const SignUpForm = () => {
 };
 
 export default SignUpForm;
+
 
 //each field has unique id as id='email' id='password' id='username'

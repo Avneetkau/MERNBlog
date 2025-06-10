@@ -1,5 +1,5 @@
 import { Button, Spinner } from 'flowbite-react';
-import axios from "axios";
+import axios from '../../axiosInstance'; // ✅ Centralized Axios
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import CallToAction from '../CallToAction/CallToAction';
@@ -17,8 +17,7 @@ const PostPage = () => {
     const fetchPost = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`/api/post/getposts?slug=${postSlug}`);
-        const data = res.data;
+        const { data } = await axios.get(`/api/post/getposts?slug=${postSlug}`);
 
         if (data?.posts?.length > 0) {
           setPost(data.posts[0]);
@@ -27,7 +26,7 @@ const PostPage = () => {
           setError(true);
         }
       } catch (err) {
-        console.error('Error fetching post:', err);
+        console.error('Error fetching post:', err.message);
         setError(true);
       } finally {
         setLoading(false);
@@ -40,11 +39,10 @@ const PostPage = () => {
   useEffect(() => {
     const fetchRecentPosts = async () => {
       try {
-        const res = await axios.get(`/api/post/getposts?limit=3`);
-        const data = res.data;
+        const { data } = await axios.get(`/api/post/getposts?limit=3`);
         setRecentPosts(data.posts || []);
       } catch (err) {
-        console.error('Error fetching recent posts:', err);
+        console.error('Error fetching recent posts:', err.message);
       }
     };
 
@@ -116,4 +114,5 @@ const PostPage = () => {
 };
 
 export default PostPage;
+
 

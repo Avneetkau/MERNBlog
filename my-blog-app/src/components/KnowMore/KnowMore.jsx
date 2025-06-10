@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios from '../../axiosInstance.js'; // ✅ Importing centralized Axios
 
 const KnowMe = () => {
   const [formData, setFormData] = useState({
@@ -17,7 +17,7 @@ const KnowMe = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/api/email/sendemail", formData); // Uses Vite proxy
+      const response = await axios.post("/api/email/sendemail", formData);
 
       if (response.data.success) {
         setShowPopup(true);

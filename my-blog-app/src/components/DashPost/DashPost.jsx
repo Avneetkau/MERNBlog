@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import axios from 'axios';
+import axios from '../../axiosInstance'; // ✅ Centralized axios
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -13,19 +13,14 @@ const DashPost = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const res = await axios.get(`/api/post/getPosts?userId=${currentUser._id}`);
-        const data = res.data;
-
-        if (res.status === 200) {
-          setUserPosts(data.posts);
-          if (data.posts.length < 9) {
-            setShowMore(false);
-          }
-        }
-      } catch (error) {
-        console.log(error.message);
+        const { data } = await axios.get(`/api/post/getPosts?userId=${currentUser._id}`);
+        setUserPosts(data.posts);
+        if (data.posts.length < 9) setShowMore(false);
+      } catch (err) {
+        console.error('Fetch error:', err.message);
       }
     };
+
     if (currentUser?.isAdmin) {
       fetchPosts();
     }
@@ -34,32 +29,21 @@ const DashPost = () => {
   const handleShowMore = async () => {
     const startIndex = userPosts.length;
     try {
-      const res = await axios.get(`/api/post/getPosts?userId=${currentUser._id}&startIndex=${startIndex}`);
-      const data = res.data;
-      if (res.status === 200) {
-        setUserPosts((prev) => [...prev, ...data.posts]);
-        if (data.posts.length < 9) {
-          setShowMore(false);
-        }
-      }
-    } catch (error) {
-      console.log(error.message);
+      const { data } = await axios.get(`/api/post/getPosts?userId=${currentUser._id}&startIndex=${startIndex}`);
+      setUserPosts((prev) => [...prev, ...data.posts]);
+      if (data.posts.length < 9) setShowMore(false);
+    } catch (err) {
+      console.error('Show more error:', err.message);
     }
   };
 
   const handleDeletePost = async () => {
     setShowModal(false);
     try {
-      const res = await axios.delete(`/api/post/deletepost/${postIdToDelete}/${currentUser._id}`);
-      const data = res.data;
-
-      if (res.status !== 200) {
-        console.log(data.message);
-      } else {
-        setUserPosts((prev) => prev.filter((post) => post._id !== postIdToDelete));
-      }
-    } catch (error) {
-      console.log(error.message);
+      const { data } = await axios.delete(`/api/post/deletepost/${postIdToDelete}/${currentUser._id}`);
+      setUserPosts((prev) => prev.filter((post) => post._id !== postIdToDelete));
+    } catch (err) {
+      console.error('Delete error:', err.message);
     }
   };
 
@@ -93,7 +77,9 @@ const DashPost = () => {
                   <td className="py-3 px-4">{post.category}</td>
                   <td className="py-3 px-4 space-x-2">
                     <Link to={`/update-post/${post._id}`}>
-                      <button className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 cursor-pointer">Edit</button>
+                      <button className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 cursor-pointer">
+                        Edit
+                      </button>
                     </Link>
                   </td>
                   <td className="py-3 px-4">
@@ -111,9 +97,13 @@ const DashPost = () => {
               ))}
             </tbody>
           </table>
+
           {showMore && (
             <div className="flex justify-center mt-4">
-              <button onClick={handleShowMore} className="w-full px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-900">
+              <button
+                onClick={handleShowMore}
+                className="w-full px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-900"
+              >
                 Show More
               </button>
             </div>
@@ -158,3 +148,4 @@ const DashPost = () => {
 };
 
 export default DashPost;
+

@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
-import axios from "axios";
-import { useSelector, useDispatch } from "react-redux";
+import axios from '../../axiosInstance'; // ✅ Centralized Axios
+import { useSelector, useDispatch } from 'react-redux';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
-import { app } from "../../Firebase/Firebase.js";
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
+import { app } from '../../Firebase/Firebase.js';
 import {
   updateStart,
   updateSuccess,
@@ -61,17 +61,16 @@ const DashProfile = () => {
         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         setImageFileUploadProgress(progress.toFixed(0));
       },
-      (error) => {
+      () => {
         setImageFileUploadError('Could not upload image. Must be < 2MB.');
         setImageFileUploadProgress(null);
         setImageFile(null);
         setImageFileUrl(null);
       },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          setImageFileUrl(downloadURL);
-          setFormData(prev => ({ ...prev, profilePicture: downloadURL }));
-        });
+      async () => {
+        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+        setImageFileUrl(downloadURL);
+        setFormData(prev => ({ ...prev, profilePicture: downloadURL }));
       }
     );
   };
@@ -86,19 +85,10 @@ const DashProfile = () => {
 
     try {
       dispatch(updateStart());
-
-      const res = await axios.put(
-        `/api/user/update/${currentUser._id}`,
-        formData,
-        {
-          withCredentials: true,
-          headers: { 'Content-Type': 'application/json' },
-        }
-      );
-
-      dispatch(updateSuccess(res.data));
-    } catch (error) {
-      dispatch(updateFailure(error.response?.data?.message || error.message));
+      const { data } = await axios.put(`/api/user/update/${currentUser._id}`, formData);
+      dispatch(updateSuccess(data));
+    } catch (err) {
+      dispatch(updateFailure(err.response?.data?.message || err.message));
     }
   };
 
@@ -106,26 +96,19 @@ const DashProfile = () => {
     setShowModal(false);
     try {
       dispatch(deleteUserStart());
-
-      const res = await axios.delete(`/api/user/delete/${currentUser._id}`, {
-        withCredentials: true,
-      });
-
-      dispatch(deleteUserSuccess(res.data));
-    } catch (error) {
-      dispatch(deleteUserFailure(error.response?.data?.message || error.message));
+      const { data } = await axios.delete(`/api/user/delete/${currentUser._id}`);
+      dispatch(deleteUserSuccess(data));
+    } catch (err) {
+      dispatch(deleteUserFailure(err.response?.data?.message || err.message));
     }
   };
 
   const handleSignOut = async () => {
     try {
-      const res = await axios.post('/api/user/signout', {}, {
-        withCredentials: true,
-      });
-
+      await axios.post('/api/user/signout');
       dispatch(signoutSuccess());
-    } catch (error) {
-      console.log(error.response?.data?.message || error.message);
+    } catch (err) {
+      console.error(err.response?.data?.message || err.message);
     }
   };
 
@@ -135,21 +118,17 @@ const DashProfile = () => {
 
       <form className="flex flex-col items-center w-full max-w-sm space-y-4" onSubmit={handleSubmit}>
         <input type="file" accept="image/*" onChange={handleImageChange} ref={filePickerRef} hidden />
-        <div className="relative w-32 h-32 self-center flex-col cursor-pointer shadow-md overflow-hidden rounded-full"
-          onClick={() => filePickerRef.current.click()}>
+        <div
+          className="relative w-32 h-32 self-center flex-col cursor-pointer shadow-md overflow-hidden rounded-full"
+          onClick={() => filePickerRef.current.click()}
+        >
           {imageFileUploadProgress && (
             <CircularProgressbar
               value={imageFileUploadProgress || 0}
               text={`${imageFileUploadProgress}%`}
               strokeWidth={5}
               styles={{
-                root: {
-                  width: '100%',
-                  height: '100%',
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                },
+                root: { width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 },
                 path: {
                   stroke: `rgba(62, 152, 199, ${imageFileUploadProgress / 100})`,
                 },
@@ -159,7 +138,9 @@ const DashProfile = () => {
           <img
             src={imageFileUrl || currentUser.profilePicture}
             alt="user"
-            className={`rounded-full w-full h-full border-8 border-[lightgrey] object-cover ${imageFileUploadProgress && imageFileUploadProgress < 100 && 'opacity-60'}`}
+            className={`rounded-full w-full h-full border-8 border-[lightgrey] object-cover ${
+              imageFileUploadProgress && imageFileUploadProgress < 100 && 'opacity-60'
+            }`}
           />
         </div>
 
@@ -172,7 +153,6 @@ const DashProfile = () => {
           defaultValue={currentUser.username}
           onChange={handleChange}
         />
-
         <input
           type="email"
           id="email"
@@ -180,7 +160,6 @@ const DashProfile = () => {
           defaultValue={currentUser.email}
           onChange={handleChange}
         />
-
         <input
           type="password"
           id="password"
@@ -198,7 +177,7 @@ const DashProfile = () => {
         </button>
 
         {currentUser.isAdmin && (
-          <Link to='/create-post'>
+          <Link to="/create-post">
             <button type="button" className="w-[380px] bg-red-500 text-white font-semibold py-2 rounded-md hover:bg-red-700 transition duration-300">
               Create a Post
             </button>

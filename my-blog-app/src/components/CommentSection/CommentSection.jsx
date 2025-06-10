@@ -1,5 +1,5 @@
 import { Alert, Button, Textarea } from 'flowbite-react';
-import axios from 'axios';
+import axios from '../../axiosInstance.js'; // ✅ Using centralized axios
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
@@ -22,24 +22,15 @@ const CommentSection = ({ postId }) => {
     }
 
     try {
-      const res = await axios.post(
-        '/api/comment/create',
-        {
-          content: comment,
-          postId,
-          userId: currentUser._id,
-        },
-        {
-          withCredentials: true,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+      const { data } = await axios.post('/api/comment/create', {
+        content: comment,
+        postId,
+        userId: currentUser._id,
+      });
 
       setComment('');
       setCommentError(null);
-      setComments([res.data, ...comments]);
+      setComments([data, ...comments]);
     } catch (error) {
       setCommentError(error.response?.data?.message || 'Failed to add comment');
       console.log('Comment creation error:', error);
@@ -49,8 +40,8 @@ const CommentSection = ({ postId }) => {
   useEffect(() => {
     const getComments = async () => {
       try {
-        const res = await axios.get(`/api/comment/getPostComment/${postId}`);
-        setComments(res.data);
+        const { data } = await axios.get(`/api/comment/getPostComment/${postId}`);
+        setComments(data);
       } catch (error) {
         console.log('Get comments error:', error.message);
       }
@@ -65,17 +56,15 @@ const CommentSection = ({ postId }) => {
         return;
       }
 
-      const res = await axios.put(`/api/comment/likeComment/${commentId}`, null, {
-        withCredentials: true,
-      });
+      const { data } = await axios.put(`/api/comment/likeComment/${commentId}`);
 
       setComments(
         comments.map((comment) =>
           comment._id === commentId
             ? {
                 ...comment,
-                likes: res.data.likes,
-                numberOfLikes: res.data.likes.length,
+                likes: data.likes,
+                numberOfLikes: data.likes.length,
               }
             : comment
         )
@@ -101,9 +90,7 @@ const CommentSection = ({ postId }) => {
         return;
       }
 
-      await axios.delete(`/api/comment/deleteComment/${commentId}`, {
-        withCredentials: true,
-      });
+      await axios.delete(`/api/comment/deleteComment/${commentId}`);
 
       setComments(comments.filter((comment) => comment._id !== commentId));
     } catch (error) {

@@ -1,5 +1,5 @@
 import { Button, Select, TextInput } from 'flowbite-react';
-import axios from "axios";
+import axios from '../../axiosInstance'; // ✅ Centralized Axios
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import PostCard from '../PostCard/PostCard';
@@ -33,16 +33,11 @@ const Search = () => {
       setLoading(true);
       try {
         const searchQuery = urlParams.toString();
-        const res = await axios.get(`/api/post/getPosts?${searchQuery}`);
-        if (res.status !== 200) {
-          setLoading(false);
-          return;
-        }
-        const data = res.data;
+        const { data } = await axios.get(`/api/post/getPosts?${searchQuery}`);
         setPosts(data.posts);
         setShowMore(data.posts.length === 9);
-      } catch (error) {
-        console.error('Error fetching posts:', error);
+      } catch (err) {
+        console.error('Error fetching posts:', err.message);
       } finally {
         setLoading(false);
       }
@@ -76,14 +71,11 @@ const Search = () => {
       urlParams.set('startIndex', startIndex);
       const searchQuery = urlParams.toString();
 
-      const res = await axios.get(`/api/post/getPosts?${searchQuery}`);
-      if (res.status !== 200) return;
-      const data = res.data;
-
-      setPosts(prevPosts => [...prevPosts, ...data.posts]);
+      const { data } = await axios.get(`/api/post/getPosts?${searchQuery}`);
+      setPosts(prev => [...prev, ...data.posts]);
       setShowMore(data.posts.length === 9);
-    } catch (error) {
-      console.error('Error loading more posts:', error);
+    } catch (err) {
+      console.error('Error loading more posts:', err.message);
     }
   };
 
@@ -154,7 +146,6 @@ const Search = () => {
           {loading && <p className="text-xl text-gray-500">Loading...</p>}
 
           {!loading &&
-            posts &&
             posts.map((post) => <PostCard key={post._id} post={post} />)}
 
           {showMore && (
@@ -172,3 +163,4 @@ const Search = () => {
 };
 
 export default Search;
+

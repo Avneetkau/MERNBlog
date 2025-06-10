@@ -1,20 +1,14 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
-import { useLocation } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import axios from "../../axiosInstance"; // ✅ Centralized axios
+import { useLocation, useNavigate, Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import { signoutSuccess } from '../../redux/user/userSlice.js';
-import { useDispatch } from 'react-redux';
-
 
 const DashSidebar = () => {
   const { currentUser } = useSelector(state => state.user);
-  const location = useLocation(); // Get current route with query params
+  const location = useLocation();
   const [activeTab, setActiveTab] = useState("profile");
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -25,26 +19,17 @@ const DashSidebar = () => {
     }
   }, [location.search]);
 
-  //sign out 
-  const handleSignOut = async () =>{
-    try{ 
-      const res= await axios.post('/api/user/signout',
-        {
-          method : 'POST',
-        }
-      );
-      const data =await res.json();
-      if(!res.ok){
-        console.log(data.message)
-      }else{
-        dispatch(signoutSuccess());
-         navigate('/');
-        
-      }
-    } catch(error){
-      console.log(error.message);
+  // ✅ Sign Out using axiosInstance
+  const handleSignOut = async () => {
+    try {
+      const { data } = await axios.post('/api/user/signout');
+      dispatch(signoutSuccess());
+      navigate('/');
+    } catch (err) {
+      console.error('Sign out error:', err.message);
     }
-  }
+  };
+
   return (
     <div className="w-full h-full bg-gray-800 text-white p-4 flex flex-col">
       <div className="flex items-center space-x-3 mb-6">
@@ -52,87 +37,79 @@ const DashSidebar = () => {
         <span className="text-lg font-semibold font-serif">Hi, {currentUser?.username}</span>
       </div>
       <ul className="space-y-2">
-            
-      {currentUser.isAdmin && (
-  <li className="font-serif">
-    <Link
-      to="/dashboard?tab=dash"
-      className={`flex items-center p-3 rounded-lg transition cursor-pointer ${
-        activeTab === "dash" ? "bg-gray-600 text-white" : "hover:bg-gray-700"
-      }`}
-      onClick={() => setActiveTab("dash")}
-    >
-      <div className="w-5 h-5 mr-2 font-serif" /> Dashboard
-    </Link>
-    
-  </li>
-)}
+        {currentUser.isAdmin && (
+          <li className="font-serif">
+            <Link
+              to="/dashboard?tab=dash"
+              className={`flex items-center p-3 rounded-lg transition cursor-pointer ${
+                activeTab === "dash" ? "bg-gray-600 text-white" : "hover:bg-gray-700"
+              }`}
+              onClick={() => setActiveTab("dash")}
+            >
+              <div className="w-5 h-5 mr-2" /> Dashboard
+            </Link>
+          </li>
+        )}
         <li className="font-serif">
-          <Link to ="/dashboard?tab=profile" className={`flex items-center p-3 rounded-lg transition cursor-pointer ${
-            activeTab === "profile" ? "bg-gray-600 text-white" : "hover:bg-gray-700"
-          }`}
-          onClick={() => setActiveTab("profile")}
-        >
-        
-          <div className="w-5 h-5 mr-2 font-serif " /> Profile
-          
+          <Link
+            to="/dashboard?tab=profile"
+            className={`flex items-center p-3 rounded-lg transition cursor-pointer ${
+              activeTab === "profile" ? "bg-gray-600 text-white" : "hover:bg-gray-700"
+            }`}
+            onClick={() => setActiveTab("profile")}
+          >
+            <div className="w-5 h-5 mr-2" /> Profile
           </Link>
         </li>
-       
         {currentUser.isAdmin && (
-  <li className="font-serif">
-    <Link
-      to="/dashboard?tab=comments"
-      className={`flex items-center p-3 rounded-lg transition cursor-pointer ${
-        activeTab === "comments" ? "bg-gray-600 text-white" : "hover:bg-gray-700"
-      }`}
-      onClick={() => setActiveTab("comments")}
-    >
-      <div className="w-5 h-5 mr-2 font-serif" />Comments
-    </Link>
-    
-  </li>
-)}
-
-       
+          <li className="font-serif">
+            <Link
+              to="/dashboard?tab=comments"
+              className={`flex items-center p-3 rounded-lg transition cursor-pointer ${
+                activeTab === "comments" ? "bg-gray-600 text-white" : "hover:bg-gray-700"
+              }`}
+              onClick={() => setActiveTab("comments")}
+            >
+              <div className="w-5 h-5 mr-2" /> Comments
+            </Link>
+          </li>
+        )}
         {currentUser.isAdmin && (
-  <li className="font-serif">
-    <Link
-      to="/dashboard?tab=posts"
-      className={`flex items-center p-3 rounded-lg transition cursor-pointer ${
-        activeTab === "posts" ? "bg-gray-600 text-white" : "hover:bg-gray-700"
-      }`}
-      onClick={() => setActiveTab("posts")}
-    >
-      <div className="w-5 h-5 mr-2 font-serif" /> Posts
-    </Link>
-    
-  </li>
-)}
-{currentUser.isAdmin && (
-  <li className="font-serif">
-    <Link
-      to="/dashboard?tab=users"
-      className={`flex items-center p-3 rounded-lg transition cursor-pointer ${
-        activeTab === "users" ? "bg-gray-600 text-white" : "hover:bg-gray-700"
-      }`}
-      onClick={() => setActiveTab("users")}
-    >
-      <div className="w-5 h-5 mr-2 font-serif" /> Users
-    </Link>
-    
-  </li>
-)}
+          <li className="font-serif">
+            <Link
+              to="/dashboard?tab=posts"
+              className={`flex items-center p-3 rounded-lg transition cursor-pointer ${
+                activeTab === "posts" ? "bg-gray-600 text-white" : "hover:bg-gray-700"
+              }`}
+              onClick={() => setActiveTab("posts")}
+            >
+              <div className="w-5 h-5 mr-2" /> Posts
+            </Link>
+          </li>
+        )}
+        {currentUser.isAdmin && (
+          <li className="font-serif">
+            <Link
+              to="/dashboard?tab=users"
+              className={`flex items-center p-3 rounded-lg transition cursor-pointer ${
+                activeTab === "users" ? "bg-gray-600 text-white" : "hover:bg-gray-700"
+              }`}
+              onClick={() => setActiveTab("users")}
+            >
+              <div className="w-5 h-5 mr-2" /> Users
+            </Link>
+          </li>
+        )}
         <li
-          className={`flex  font-serif items-center p-3 rounded-lg transition cursor-pointer ${
+          className={`flex font-serif items-center p-3 rounded-lg transition cursor-pointer ${
             activeTab === "signout" ? "bg-gray-600 text-white" : "hover:bg-gray-700"
           }`}
           onClick={() => {
-    setActiveTab("signout");
-    handleSignOut();
-  }}
+            setActiveTab("signout");
+            handleSignOut();
+          }}
         >
-          <div className="w-5 h-5 mr-2 font-serif" /> Sign Out
+          <div className="w-5 h-5 mr-2" /> Sign Out
         </li>
       </ul>
     </div>

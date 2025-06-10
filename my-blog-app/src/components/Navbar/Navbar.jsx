@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from "axios";
+import axios from '../../axiosInstance'; // ✅ Centralized Axios
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from "../../assets/logo.jpg";
 import { useSelector, useDispatch } from 'react-redux';
@@ -22,14 +22,13 @@ const Navbar = () => {
     }
   }, [location.search]);
 
-  // ✅ Corrected Sign-out logic
   const handleSignOut = async () => {
     try {
-      const res = await axios.post('/api/user/signout');
+      const { data } = await axios.post('/api/user/signout');
       dispatch(signoutSuccess());
-      navigate("/");
-    } catch (error) {
-      console.log("Signout failed:", error.message);
+      navigate('/');
+    } catch (err) {
+      console.error('Signout failed:', err.message);
     }
   };
 
@@ -80,9 +79,9 @@ const Navbar = () => {
               {isOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg z-10">
                   <ul className="py-2 text-gray-700">
-                    <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer font-serif">{currentUser.username}</li>
-                    <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer font-serif">{currentUser.email}</li>
-                    <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                    <li className="px-4 py-2 hover:bg-gray-100 cursor-default font-serif">{currentUser.username}</li>
+                    <li className="px-4 py-2 hover:bg-gray-100 cursor-default font-serif">{currentUser.email}</li>
+                    <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer font-serif">
                       <Link to="/dashboard?tab=profile">Profile</Link>
                     </li>
                     <li
@@ -110,3 +109,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+

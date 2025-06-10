@@ -1,5 +1,5 @@
 import { FcGoogle } from "react-icons/fc";
-import axios from "axios";
+import axios from "../../axiosInstance"; // ✅ Centralized Axios
 import { GoogleAuthProvider, signInWithPopup, getAuth } from 'firebase/auth';
 import { app } from "../../Firebase/Firebase.js";
 import { useDispatch } from "react-redux";
@@ -18,19 +18,17 @@ const OAuth = () => {
     try {
       const resultFromGoogle = await signInWithPopup(auth, provider);
 
-      // Send user info to backend
-      const res = await axios.post('/api/auth/google', {
+      // ✅ Clean axios pattern
+      const { data } = await axios.post('/api/auth/google', {
         name: resultFromGoogle.user.displayName,
         email: resultFromGoogle.user.email,
         googlephotoUrl: resultFromGoogle.user.photoURL,
       });
 
-      const data = res.data;
-
       dispatch(signInSuccess(data));
       navigate('/');
-    } catch (error) {
-      console.error("Google sign-in failed:", error);
+    } catch (err) {
+      console.error("Google sign-in failed:", err.message);
       alert("Google sign-in failed. Please try again.");
     }
   };

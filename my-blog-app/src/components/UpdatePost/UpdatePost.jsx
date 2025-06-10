@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from "axios";
+import axios from '../../axiosInstance'; // ✅ Centralized Axios
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { getStorage, uploadBytesResumable, getDownloadURL, ref } from "firebase/storage";
@@ -28,17 +28,11 @@ const UpdatePost = () => {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const res = await axios.get(`/api/post/getposts?postId=${postId}`);
-        const data = res.data;
-
-        if (!res.status || res.status >= 400) {
-          setPublishError(data.message || "Failed to fetch post");
-          return;
-        }
+        const { data } = await axios.get(`/api/post/getposts?postId=${postId}`);
 
         if (data.posts && data.posts.length > 0) {
-          setPublishError(null);
           setFormData(data.posts[0]);
+          setPublishError(null);
         } else {
           setPublishError("Post not found");
         }
@@ -57,6 +51,7 @@ const UpdatePost = () => {
       setImageUploadError('Please select an image');
       return;
     }
+
     setImageUploadError(null);
 
     const storage = getStorage(app);
@@ -70,14 +65,13 @@ const UpdatePost = () => {
         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         setImageUploadProgress(progress.toFixed(0));
       },
-      (error) => {
+      () => {
         setImageUploadError('Image upload failed');
         setImageUploadProgress(null);
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setImageUploadProgress(null);
-          setImageUploadError(null);
           setFormData((prev) => ({ ...prev, image: downloadURL }));
         });
       }
@@ -88,20 +82,15 @@ const UpdatePost = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.put(`/api/post/updatepost/${formData._id}/${currentUser._id}`, formData, {
-        headers: { 'Content-Type': 'application/json' }
-      });
-      const data = res.data;
-
-      if (!res.status || res.status >= 400) {
-        setPublishError(data.message || 'Failed to update post');
-        return;
-      }
+      const { data } = await axios.put(
+        `/api/post/updatepost/${formData._id}/${currentUser._id}`,
+        formData
+      );
 
       setPublishError(null);
       navigate(`/post/${data.slug}`);
     } catch (error) {
-      setPublishError(error.message || 'Something went wrong');
+      setPublishError(error.response?.data?.message || 'Failed to update post');
     }
   };
 
@@ -137,13 +126,7 @@ const UpdatePost = () => {
           <input
             type="file"
             accept="image/*"
-            className="block w-full text-sm text-gray-700
-               file:bg-black file:text-white
-               file:py-2 file:px-4
-               file:rounded-md file:border-0
-               file:font-semibold
-               file:cursor-pointer
-               bg-white rounded-md"
+            className="block w-full text-sm text-gray-700 file:bg-black file:text-white file:py-2 file:px-4 file:rounded-md file:border-0 file:font-semibold file:cursor-pointer bg-white rounded-md"
             onChange={(e) => setFile(e.target.files[0])}
           />
 

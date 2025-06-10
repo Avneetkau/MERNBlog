@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from "axios";
+import axios from '../../axiosInstance.js'; // ✅ Centralized Axios
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { getStorage, uploadBytesResumable, getDownloadURL, ref } from "firebase/storage";
@@ -19,19 +19,16 @@ const CreatePost = () => {
     image: ''
   });
   const [publishError, setPublishError] = useState(null);
-
   const navigate = useNavigate();
 
-  // Upload image to Firebase Storage
   const handleUploadImage = async (e) => {
     e.preventDefault();
-
     if (!file) {
       setImageUploadError('Please select an image');
       return;
     }
-    setImageUploadError(null);
 
+    setImageUploadError(null);
     const storage = getStorage(app);
     const fileName = new Date().getTime() + "-" + file.name;
     const storageRef = ref(storage, fileName);
@@ -58,31 +55,16 @@ const CreatePost = () => {
     );
   };
 
-  // Submit post to backend
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Basic front-end validation
-    {/*if (!formData.title.trim() || !formData.category || formData.category === "uncategorized" || !formData.content.trim() || !formData.image) {
-      setPublishError('Please fill in all required fields and upload an image.');
-      return; // Stop submission if validation fails
-    }*/}
     if (!formData.title.trim() || !formData.category || formData.category === "uncategorized" || !formData.content.trim()) {
-  setPublishError('Please fill in all required fields.');
-  return;
-}
-
+      setPublishError('Please fill in all required fields.');
+      return;
+    }
 
     try {
-      const res = await axios.post('/api/post/create-post', formData, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        withCredentials: true, // Include if backend uses cookies for auth
-      });
-
-      const data = res.data;
-
+      const { data } = await axios.post('/api/post/create-post', formData);
       if (!data.success) {
         setPublishError(data.message || 'Something went wrong');
         return;
@@ -90,7 +72,6 @@ const CreatePost = () => {
 
       setPublishError(null);
       navigate(`/post/${data.slug}`);
-
     } catch (error) {
       console.error(error);
       setPublishError('Something went wrong. Please try again.');
@@ -196,3 +177,4 @@ const CreatePost = () => {
 };
 
 export default CreatePost;
+

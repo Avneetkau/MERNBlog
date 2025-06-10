@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import axios from "axios";
+import axios from '../../axiosInstance'; // ✅ Centralized Axios
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -13,19 +13,14 @@ const DashComments = () => {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const res = await axios.get(`/api/comment/getcomments`);
-        const data = res.data;
-
-        if (res.status === 200) {
-          setComments(data.comments);
-          if (data.comments.length < 9) {
-            setShowMore(false);
-          }
-        }
-      } catch (error) {
-        console.log(error.message);
+        const { data } = await axios.get('/api/comment/getcomments');
+        setComments(data.comments);
+        if (data.comments.length < 9) setShowMore(false);
+      } catch (err) {
+        console.error('Fetch error:', err.message);
       }
     };
+
     if (currentUser?.isAdmin) {
       fetchComments();
     }
@@ -34,33 +29,21 @@ const DashComments = () => {
   const handleShowMore = async () => {
     const startIndex = comments.length;
     try {
-      const res = await axios.get(`/api/comment/getcomments?startIndex=${startIndex}`);
-      const data = res.data;
-      if (res.status === 200) {
-        setComments((prev) => [...prev, ...data.comments]);
-        if (data.comments.length < 9) {
-          setShowMore(false);
-        }
-      }
-    } catch (error) {
-      console.log(error.message);
+      const { data } = await axios.get(`/api/comment/getcomments?startIndex=${startIndex}`);
+      setComments((prev) => [...prev, ...data.comments]);
+      if (data.comments.length < 9) setShowMore(false);
+    } catch (err) {
+      console.error('Show more error:', err.message);
     }
   };
 
   const handleDeleteComment = async () => {
     setShowModal(false);
     try {
-      const res = await axios.delete(`/api/comment/deleteComment/${commentIdToDelete}`, {
-  withCredentials: true});
-      const data = res.data;
-
-      if (res.status === 200) {
-        setComments((prev) => prev.filter((comment) => comment._id !== commentIdToDelete));
-      } else {
-        console.log(data.message);
-      }
-    } catch (error) {
-      console.log(error.message);
+      const { data } = await axios.delete(`/api/comment/deleteComment/${commentIdToDelete}`);
+      setComments((prev) => prev.filter((comment) => comment._id !== commentIdToDelete));
+    } catch (err) {
+      console.error('Delete error:', err.message);
     }
   };
 
@@ -102,6 +85,7 @@ const DashComments = () => {
               ))}
             </tbody>
           </table>
+
           {showMore && (
             <div className="flex justify-center mt-4">
               <button

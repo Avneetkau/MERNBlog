@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import axios from '../../axiosInstance'; 
+import axios from '../../axiosinstance'; 
 import { useEffect, useState } from 'react';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 

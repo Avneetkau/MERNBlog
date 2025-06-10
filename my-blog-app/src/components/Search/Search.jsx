@@ -1,5 +1,5 @@
 import { Button, Select, TextInput } from 'flowbite-react';
-import axios from '../../axiosInstance'; 
+import axios from '../../axiosinstance'; 
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import PostCard from '../PostCard/PostCard';

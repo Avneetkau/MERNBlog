@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from '../../axiosInstance';  
+import axios from '../../axiosinstance.js';  
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from "../../assets/logo.jpg";
 import { useSelector, useDispatch } from 'react-redux';

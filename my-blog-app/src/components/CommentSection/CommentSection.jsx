@@ -1,5 +1,5 @@
 import { Alert, Button, Textarea } from 'flowbite-react';
-import axios from '../../axiosInstance'; 
+import axios from '../../axiosinstance'; 
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';

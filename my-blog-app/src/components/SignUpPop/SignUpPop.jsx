@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import axios from "../../axiosInstance"; 
+import axios from "../../axiosinstance"; 
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { signInSuccess } from "../../redux/user/userSlice";

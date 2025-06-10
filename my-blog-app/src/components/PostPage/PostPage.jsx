@@ -1,5 +1,5 @@
 import { Button, Spinner } from 'flowbite-react';
-import axios from '../../axiosInstance'; 
+import axios from '../../axiosinstance'; 
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import CallToAction from '../CallToAction/CallToAction';

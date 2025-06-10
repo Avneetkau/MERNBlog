@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 
-const allowedOrigins = ['http://localhost:5173', 'https://mern-blogs-ten.vercel.app'];
+const allowedOrigins = ['http://localhost:5173', 'https://mern-blog-pq4q.vercel.app/'];
 app.use(cors({ origin : allowedOrigins, credentials : true}));
 
 

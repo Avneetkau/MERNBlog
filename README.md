@@ -30,7 +30,7 @@ Follow these steps to run the project locally on your machine:
 1. Clone the Repository
 
 
-git clone https://github.com/your-username/mern-blog-website.git
+git clone https://github.com/Avneetkau/MERNBlog
 cd mern-blog-website
 
 2. Install Dependencies

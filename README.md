@@ -12,7 +12,7 @@ A full-stack Blog web application built using the **MERN stack** (MongoDB, Expre
 - 📸 Image Uploads (Cloudinary integration)
 - 💬 Comments System
 - 📱 Responsive Design
-- 🌐 Deployed on [Render](https://render.com/) (or your deployment platform)
+- 🌐 Deployed on [Vercel](https://mern-blog-pq4q.vercel.app/) (or your deployment platform)
 
 ---
 
@@ -23,8 +23,38 @@ A full-stack Blog web application built using the **MERN stack** (MongoDB, Expre
 - **Database:** MongoDB Atlas
 - **Authentication:** JSON Web Token (JWT), bcrypt
 - **Image Hosting:** Cloudinary
-<<<<<<< HEAD
-- **Deployment:** Render / Vercel / Netlify / Railway
-=======
-- **Deployment:** Render / Vercel / Netlify / Railway
->>>>>>> 8a14c18 (render commit)
+-  **Deployment Platform:** Vercel
+⚙️ Getting Started (Run Locally)
+Follow these steps to run the project locally on your machine:
+
+1. Clone the Repository
+
+
+git clone https://github.com/your-username/mern-blog-website.git
+cd mern-blog-website
+
+2. Install Dependencies
+   
+📦 Backend
+cd backend
+npm install
+
+📦 Frontend
+cd ../frontend
+npm install
+Make sure you have Node.js and npm installed globally.
+
+3. Set Up Environment Variables
+Create a .env file in both backend and frontend folders.
+
+4. Run the Project
+   
+▶️ Start the Backend
+cd backend
+npm run dev
+
+▶️ Start the Frontend
+Open a new terminal:
+cd frontend
+npm run dev
+

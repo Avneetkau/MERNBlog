@@ -77,10 +77,10 @@ const Navbar = () => {
                 className="w-10 h-10 rounded-full cursor-pointer border-2 border-white"
               />
               {isOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg z-10">
+                <div className="absolute right-0 mt-2 w-64 bg-white border rounded-lg shadow-lg z-10">
                   <ul className="py-2 text-gray-700">
                     <li className="px-4 py-2 hover:bg-gray-100 cursor-default font-serif">{currentUser.username}</li>
-                    <li className="px-4 py-2 hover:bg-gray-100 cursor-default font-serif">{currentUser.email}</li>
+                    <li className="px-4 py-2 hover:bg-gray-100 cursor-default break-words font-serif">{currentUser.email}</li>
                     <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer font-serif">
                       <Link to="/dashboard?tab=profile">Profile</Link>
                     </li>

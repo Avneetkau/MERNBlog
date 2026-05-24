@@ -42,6 +42,15 @@ const SignIn = () => {
       dispatch(signInFailure(err.message));
     }
   };
+  
+
+  // for dummy admin sign in
+  const handleDummyLogin = () => {
+  setFormData({
+    email: "admin@gmail.com",
+    password: "admin123",
+  });
+};
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -56,6 +65,7 @@ const SignIn = () => {
               type="email"
               name="email"
               id="email"
+              value ={formData.email || ""} //for dummy data  
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-500"
               placeholder="Enter your email"
             />
@@ -68,6 +78,7 @@ const SignIn = () => {
               type="password"
               name="password"
               id="password"
+              value={formData.password || ""} // for dummy admin password too
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-500"
               placeholder="**************"
             />
@@ -106,7 +117,14 @@ const SignIn = () => {
               "Sign In"
             )}
           </button>
-
+            
+             <button
+            type="button"
+            onClick={handleDummyLogin}
+            className="w-full mt-3 bg-gray-700 text-white py-3 rounded-md hover:bg-gray-900 transition duration-300"
+            >
+                   Use Dummy Admin Login
+           </button>
           <OAuth />
         </form>
 

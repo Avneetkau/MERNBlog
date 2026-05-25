@@ -45,9 +45,10 @@ app.use('/api/comment',commentRoute);
 app.use('/api/email',emailRoute);
 
 
-const USERNAME=process.env.DB_USERNAME;
-const PASSWORD =process.env.DB_PASSWORD;
-Connection(USERNAME,PASSWORD);
+//const USERNAME=process.env.DB_USERNAME;
+//const PASSWORD =process.env.DB_PASSWORD;
+//Connection(USERNAME,PASSWORD);
+Connection();
 
 
 

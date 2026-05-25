@@ -25,7 +25,7 @@ const Connection = async (USERNAME, PASSWORD) => {
 };
 
 export default Connection;*/
-import mongoose from "mongoose";
+/*import mongoose from "mongoose";
   const Connection = async (USERNAME,PASSWORD) => {
     //const URL=`mongodb+srv://${USERNAME}:${PASSWORD}@mern-blog.i6rur.mongodb.net/?retryWrites=true&w=majority&appName=mern-blog`
      //const URL =`mongodb+srv://${USERNAME}:${PASSWORD}@mern-blog.i6rur.mongodb.net/?retryWrites=true&w=majority&appName=mern-blog`
@@ -38,4 +38,20 @@ import mongoose from "mongoose";
     }
  }
  export default Connection;
+*/
 
+import mongoose from "mongoose";
+
+const Connection = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URL, {
+      serverSelectionTimeoutMS: 30000,
+    });
+
+    console.log("Database connected");
+  } catch (error) {
+    console.log("Mongo error:", error);
+  }
+};
+
+export default Connection;
